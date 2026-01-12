@@ -1,206 +1,169 @@
-<script
-  defer
-  src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
-></script>
-<script src="https://cdn.tailwindcss.com"></script>
+{% load static %}
+<section
+  x-data="heroSlider()"
+  x-init="init()"
+  @mouseenter="autoplay = false"
+  @mouseleave="autoplay = true"
+  class="relative w-full h-[85vh] overflow-hidden bg-slate-900"
+>
+  <template x-for="(slide, index) in slides" :key="'slide-' + index">
+    <div
+      x-show="currentSlide === index"
+      x-transition:enter="transition ease-out duration-1000"
+      x-transition:enter-start="opacity-0 scale-105"
+      x-transition:enter-end="opacity-100 scale-100"
+      x-transition:leave="transition ease-in duration-500"
+      x-transition:leave-start="opacity-100"
+      x-transition:leave-end="opacity-0"
+      class="absolute inset-0"
+    >
+      <img
+        :src="slide.image"
+        class="absolute inset-0 w-full h-full object-cover"
+        :class="currentSlide === index ? 'animate-slow-zoom' : ''"
+      />
 
-<style>
-  .hero-slide {
-    transition: opacity 0.8s ease, transform 0.8s ease;
-  }
-  .slide-content {
-    transition: all 0.6s ease 0.3s;
-  }
-  .fade-in {
-    animation: fadeIn 1s ease-in;
-  }
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-</style>
+      <div
+        class="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/40 to-transparent"
+      ></div>
 
-<body class="m-0 p-0">
-  <div
-    x-data="heroSlider()"
-    class="relative overflow-hidden w-full"
-    @mouseenter="autoplay = false"
-    @mouseleave="autoplay = true"
-  >
-    <div class="relative w-full h-[80vh] min-h-[500px]">
-      <template x-for="(slide, index) in slides" :key="index">
-        <div
-          x-show="currentSlide === index"
-          x-transition.opacity.duration.800ms
-          class="absolute inset-0 w-full"
-        >
-          <div class="absolute inset-0 w-full h-full bg-gray-800">
-            <img
-              :src="slide.image"
-              :alt="slide.title"
-              class="w-full h-full object-cover opacity-80"
-              @error="replaceBrokenImage($event)"
-              loading="lazy"
-            />
-          </div>
-
-          <!-- SLIDE CONTENT FULL WIDTH -->
-          <div class="w-full h-full flex items-center px-0">
-            <div
-              class="max-w-2xl text-white slide-content ml-10"
-              :class="{
-                'translate-x-0 opacity-100': currentSlide === index,
-                'translate-x-10 opacity-0': currentSlide !== index
-              }"
+      <div class="relative z-10 h-full flex items-center px-10 md:px-24">
+        <div class="max-w-3xl">
+          <span
+            class="inline-block text-yellow-500 font-bold text-sm uppercase tracking-[0.3em] mb-4 overflow-hidden"
+          >
+            <span
+              class="block transform transition-transform duration-700 delay-300"
+              :class="currentSlide === index ? 'translate-y-0' : 'translate-y-full'"
             >
-              <h2
-                x-text="slide.title"
-                class="text-4xl md:text-5xl font-bold mb-4"
-              ></h2>
-              <p
-                x-text="slide.description"
-                class="text-xl md:text-2xl mb-8"
-              ></p>
+              Proservice Ingeniería
+            </span>
+          </span>
 
-              <a
-                :href="slide.buttonUrl"
-                class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg text-lg font-semibold transition-colors fade-in"
-                x-text="slide.buttonText"
-              ></a>
-            </div>
+          <h1
+            class="text-5xl md:text-7xl font-black text-white mb-6 leading-tight"
+            x-text="slide.title"
+          ></h1>
+
+          <p
+            class="text-xl text-slate-200 mb-10 max-w-xl leading-relaxed font-light"
+            x-text="slide.description"
+          ></p>
+
+          <div class="flex flex-wrap gap-4">
+            <button
+              @click="$dispatch('abrir-proyecto', slide.title)"
+              class="bg-yellow-500 hover:bg-white text-slate-900 px-10 py-4 rounded-2xl font-black text-xs uppercase tracking-widest transition-all duration-300 shadow-2xl flex items-center gap-3"
+            >
+              <span x-text="slide.buttonText"></span>
+              <i class="fas fa-plus text-[10px]"></i>
+            </button>
           </div>
         </div>
-      </template>
-
-      <!-- BOTÓN PREV -->
-      <button
-        @click="prev()"
-        class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full w-10 h-10 md:w-12 md:h-12 flex items-center justify-center z-10 transition-all"
-        aria-label="Previous slide"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-5 w-5 md:h-6 md:w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M15 19l-7-7 7-7"
-          />
-        </svg>
-      </button>
-
-      <!-- BOTÓN NEXT -->
-      <button
-        @click="next()"
-        class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full w-10 h-10 md:w-12 md:h-12 flex items-center justify-center z-10 transition-all"
-        aria-label="Next slide"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-5 w-5 md:h-6 md:w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M9 5l7 7-7 7"
-          />
-        </svg>
-      </button>
-
-      <!-- INDICADORES -->
-      <div
-        class="absolute bottom-8 left-1/2 -translate-x-1/2 flex space-x-2 z-10"
-      >
-        <template x-for="(slide, index) in slides" :key="index">
-          <button
-            @click="goTo(index)"
-            class="w-2 h-2 md:w-3 md:h-3 rounded-full transition-all"
-            :class="{
-              'bg-white w-4 md:w-6': currentSlide === index,
-              'bg-white/50': currentSlide !== index
-            }"
-            :aria-label="`Go to slide ${index + 1}`"
-          ></button>
-        </template>
       </div>
+    </div>
+  </template>
+
+  <div
+    class="absolute bottom-12 left-10 md:left-24 z-20 flex items-center gap-8"
+  >
+    <div class="flex gap-3">
+      <template x-for="(slide, index) in slides" :key="'dot-' + index">
+        <button
+          @click="goTo(index)"
+          class="h-1 transition-all duration-500 rounded-full"
+          :class="currentSlide === index ? 'w-12 bg-yellow-500' : 'w-4 bg-white/30'"
+        ></button>
+      </template>
     </div>
   </div>
 
-  <script>
-    function heroSlider() {
-      return {
-        currentSlide: 0,
-        autoplay: true,
-        interval: null,
-        slides: [
-          {
-            title: "Objavte nové obzory",
-            description: "Cestovateľské zážitky, ktoré vám zmenia život",
-            buttonText: "Rezervovať",
-            buttonUrl: "#",
-            image:
-              "file:///C:/Users/Usuario/Desktop/proservice_web/proservice_web/app/static/images/cards/electric.jpg",
-          },
-          {
-            title: "Prírodné krásy  prueba",
-            description: "Nádherné výhľady a čistá príroda",
-            buttonText: "Pozrieť ponuku",
-            buttonUrl: "#",
-            image:
-              "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1920&q=80",
-          },
-          {
-            title: "Mestské dobrodružstvo",
-            description: "Moderné mestá plné života a kultúry",
-            buttonText: "Viac informácií",
-            buttonUrl: "#",
-            image:
-              "https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=1920&q=80",
-          },
-        ],
+  <div class="absolute bottom-12 right-10 md:right-24 z-20 flex gap-4">
+    <button
+      @click="prev()"
+      class="w-14 h-14 rounded-2xl border border-white/20 flex items-center justify-center text-white hover:bg-white hover:text-slate-900 transition-all"
+    >
+      <i class="fas fa-arrow-left"></i>
+    </button>
+    <button
+      @click="next()"
+      class="w-14 h-14 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-yellow-500 hover:text-slate-900 transition-all"
+    >
+      <i class="fas fa-arrow-right"></i>
+    </button>
+  </div>
+</section>
 
-        init() {
-          this.startAutoplay();
-        },
-        next() {
-          this.currentSlide = (this.currentSlide + 1) % this.slides.length;
-        },
-        prev() {
-          this.currentSlide =
-            (this.currentSlide - 1 + this.slides.length) % this.slides.length;
-        },
-        goTo(i) {
-          this.currentSlide = i;
-        },
-
-        startAutoplay() {
-          this.interval = setInterval(() => {
-            if (this.autoplay) this.next();
-          }, 5000);
-        },
-
-        replaceBrokenImage(event) {
-          const fallbacks = [
-            "file:///C:/Users/Usuario/Desktop/proservice_web/proservice_web/app/static/images/cards/electric.jpg",
-            "https://picsum.photos/id/1015/1920/1080",
-            "https://picsum.photos/id/1019/1920/1080",
-          ];
-          event.target.src = fallbacks[this.currentSlide % fallbacks.length];
-        },
-      };
+<style>
+  @keyframes slow-zoom {
+    from {
+      transform: scale(1);
     }
-  </script>
-</body>
+    to {
+      transform: scale(1.1);
+    }
+  }
+  .animate-slow-zoom {
+    animation: slow-zoom 10s linear infinite alternate;
+  }
+</style>
+
+<script>
+  function heroSlider() {
+    return {
+      currentSlide: 0,
+      autoplay: true,
+      slideDuration: 6000,
+      autoplayIntervalId: null,
+      slides: [
+        {
+          title: "Iluminación Exterior LED",
+          description:
+            "Montajes de baja tensión, tableros de transferencia y proyectos de iluminación industrial bajo estricta normativa RIC.",
+          buttonText: "Ver Proyectos",
+          buttonUrl: "#portfolio",
+          image: "{% static 'img/electric1.jpg' %}",
+        },
+        {
+          title: "Climatización de Plantas",
+          description:
+            "Especialistas en sistemas HVAC, Chillers y mantenimiento preventivo para asegurar la continuidad operacional.",
+          buttonText: "Explorar Servicios",
+          buttonUrl: "#services",
+          image: "{% static 'img/aire.jpeg' %}",
+        },
+        {
+          title: "Fundaciones de Hormigón",
+          description:
+            "Fabricación de fundaciones piramidales para postes de 15 metros y estructuras de hormigón de alta resistencia.",
+          buttonText: "Explorar Obras",
+          buttonUrl: "#portfolio",
+          image:
+            "{% static 'img/obras/WhatsApp Image 2026-01-06 at 22.21.22.jpeg' %}",
+        },
+      ],
+      init() {
+        this.resetInterval();
+      },
+      resetInterval() {
+        if (this.autoplayIntervalId) clearInterval(this.autoplayIntervalId);
+        this.autoplayIntervalId = setInterval(() => {
+          if (this.autoplay) this.next();
+        }, this.slideDuration);
+      },
+      next() {
+        this.currentSlide = (this.currentSlide + 1) % this.slides.length;
+        this.resetInterval();
+      },
+      prev() {
+        this.currentSlide =
+          (this.currentSlide - 1 + this.slides.length) % this.slides.length;
+        this.resetInterval();
+      },
+      goTo(i) {
+        this.currentSlide = i;
+        this.resetInterval();
+      },
+    };
+  }
+</script>

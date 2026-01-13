@@ -10,6 +10,7 @@
     />
     <meta property="og:image" content="{% static 'img/log_b.png' %}" />
     <title>Proservice - Ingeniería</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
     <link
       href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
       rel="stylesheet"
@@ -24,197 +25,6 @@
     />
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-    <style>
-      /* Custom animations */
-      html {
-        scroll-behavior: smooth;
-      }
-      @keyframes float {
-        0%,
-        100% {
-          transform: translateY(0);
-        }
-        50% {
-          transform: translateY(-20px);
-        }
-      }
-
-      @keyframes pulse {
-        0%,
-        100% {
-          transform: scale(1);
-        }
-        50% {
-          transform: scale(1.05);
-        }
-      }
-
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-        }
-        to {
-          opacity: 1;
-        }
-      }
-
-      @keyframes slideUp {
-        from {
-          opacity: 0;
-          transform: translateY(60px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-  @keyframes float {
-        0% {
-          transform: translateY(0px);
-        }
-        50% {
-          transform: translateY(-8px);
-        }
-        100% {
-          transform: translateY(0px);
-        }
-      }
-      .animate-float {
-        animation: float 3s ease-in-out infinite;
-      }
-      @keyframes zoomIn {
-        from {
-          opacity: 0;
-          transform: scale(0.8);
-        }
-        to {
-          opacity: 1;
-          transform: scale(1);
-        }
-      }
-
-      @keyframes gradientBG {
-        0% {
-          background-position: 0% 50%;
-        }
-        50% {
-          background-position: 100% 50%;
-        }
-        100% {
-          background-position: 0% 50%;
-        }
-      }
-
-      /* Animation classes */
-      .animate-float {
-        animation: float 6s ease-in-out infinite;
-      }
-
-      .animate-pulse {
-        animation: pulse 3s ease infinite;
-      }
-      .particle {
-        position: absolute;
-        border-radius: 50%;
-        filter: blur(
-          80px
-        ); /* Esto la convierte en un aura suave, no una pelotita sólida */
-        z-index: 0;
-      }
-
-      /* Posiciones diferentes para cada una */
-      .particle:nth-child(1) {
-        width: 400px;
-        height: 400px;
-        background: rgba(99, 102, 241, 0.15);
-        top: -10%;
-        left: -10%;
-        animation: float 15s infinite alternate;
-      }
-      .particle:nth-child(2) {
-        width: 300px;
-        height: 300px;
-        background: rgba(168, 85, 247, 0.15);
-        bottom: 10%;
-        right: -5%;
-        animation: float 20s infinite alternate-reverse;
-      }
-      .particle:nth-child(3) {
-        width: 250px;
-        height: 250px;
-        background: rgba(236, 72, 153, 0.1);
-        top: 40%;
-        left: 50%;
-        animation: float 18s infinite alternate;
-      }
-
-
-
-      @keyframes move {
-        from {
-          transform: translate(0, 0);
-        }
-        to {
-          transform: translate(100vw, 100vh);
-        }
-      }
-      .fadeIn {
-        opacity: 1;
-        animation: fadeIn 1.2s ease forwards;
-      }
-
-      .slideUp {
-        opacity: 1;
-        transform: translateY(0);
-        animation: slideUp 1.2s ease forwards;
-      }
-
-      .zoom-in {
-        animation: zoomIn 1s ease-out;
-      }
-
-      .gradient-bg {
-        background: linear-gradient(-45deg, #6366f1, #8b5cf6, #ec4899, #f43f5e);
-        background-size: 400% 400%;
-        animation: gradientBG 15s ease infinite;
-      }
-
-      /* Custom components */
-      .card {
-        @apply bg-white rounded-xl shadow-lg overflow-hidden transform transition-all hover:scale-105 hover:shadow-2xl;
-      }
-
-      .btn-primary {
-        @apply bg-indigo-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-indigo-700 transition-all duration-300 transform hover:-translate-y-1;
-      }
-
-      .feature-icon {
-        @apply text-indigo-500 text-4xl mb-4;
-      }
-
-      /* Scroll animations */
-      [data-scroll] {
-        opacity: 0;
-        transition: opacity 0.6s, transform 0.6s;
-      }
-
-      [data-scroll="fadeIn"] {
-        opacity: 1;
-      }
-
-      [data-scroll="slideUp"] {
-        opacity: 1;
-        transform: translateY(0);
-      }
-      .clip-orange-slope {
-        -webkit-clip-path: polygon(55% 0%, 100% 0%, 100% 100%, 35% 100%);
-        clip-path: polygon(55% 0%, 100% 0%, 100% 100%, 35% 100%);
-      }
-      .section-base {
-  background-color: #f8fafc; /* slate-50 */
-}
-
-    </style>
   </head>
   <body class="bg-slate-100 text-gray-800">
     <div class="cursor"></div>
@@ -827,7 +637,7 @@ function enviarWhatsApp() {
     return;
   }
 
-  const miTelefono = "56993555971";
+  const miTelefono = "56942518996"; 
 
   const textoMensaje = `Hola *PROSERVICE* 👋
 Has recibido una nueva solicitud desde el sitio web.

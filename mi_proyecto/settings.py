@@ -27,9 +27,11 @@ SECRET_KEY = 'django-insecure-^+ar(#wku=fag@-q(w-d^ri7u*yit20ug=o8y(z!ndi2n^l^sh
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'tu-dominio.cl',
-    'www.tu-dominio.cl',
-    '77.42.94.254'
+    'proserviceingenieria.cl',
+    'www.proserviceingenieria.cl',
+    '77.42.94.254',
+    'localhost',
+    '127.0.0.1',
 ]
 
 
@@ -132,7 +134,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
+# Archivos estáticos (CSS, JS, íconos)
 STATIC_URL = '/static/'
+STATIC_ROOT = '/var/www/Proservice_/staticfiles/'  # ruta en el servidor Linux
+
+# Archivos subidos por usuarios
+MEDIA_URL = '/media/'
+MEDIA_ROOT = '/var/www/Proservice_/media/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'proservice', 'static'),

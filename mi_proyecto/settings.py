@@ -136,11 +136,11 @@ USE_TZ = True
 
 # Archivos estáticos (CSS, JS, íconos)
 STATIC_URL = '/static/'
-STATIC_ROOT = '/var/www/Proservice_/staticfiles/'  # ruta en el servidor Linux
+STATIC_ROOT = '/var/www/Pr_ser_vice/staticfiles/'  # ruta en el servidor Linux
 
 # Archivos subidos por usuarios
 MEDIA_URL = '/media/'
-MEDIA_ROOT = '/var/www/Proservice_/media/'
+MEDIA_ROOT = '/var/www/Pr_ser_vice/media/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'proservice', 'static'),
